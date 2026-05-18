@@ -18,13 +18,13 @@ Coletar automaticamente publicações do Diário Oficial de Avaré usando Python
 ### Criar ambiente virtual
     python -m venv venv
 
--Ativar ambiente
+## Ativar ambiente
 
     Windows:
         venv\Scripts\activate
 
--Instalar dependências
-pip install -r requirements.txt
+## Instalar dependências:
+    pip install -r requirements.txt
 
--Executar projeto
-python src/scraper.py
+## Executar projeto:
+    python src/scraper.py
