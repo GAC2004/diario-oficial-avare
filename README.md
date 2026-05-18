@@ -1,13 +1,13 @@
 # Diário Oficial Inteligente de Avaré
 
-Projeto Final da disciplina Redes Neurais e IA Aplicada da Faculdade FEAP Avaré (Faculdade de Engenharia e Adminstração Paulista de Avaré)
+Projeto Final da disciplina Redes Neurais e IA Aplicada da Faculdade FEAP Avaré (Faculdade de Engenharia e Administração Paulista de Avaré)  
+Bacharelado em Engenharia da Computação
 
 ## Professor Responsável da Matéria
 
 Prof° Fernando Oliveira
 
 ## Alunos Participantes do Projeto
-Bacharelado em Engenharia da Computação: 
 
 * Gabriela Arruda Carriel 
 * Stela Veiga Monteiro
@@ -34,8 +34,8 @@ Coletar automaticamente publicações do Diário Oficial de Avaré usando Python
 
 ## Ativar ambiente
 
-Windows:
-    venv\Scripts\activate
+    Windows:
+        venv\Scripts\activate
 
 ## Instalar dependências:
     pip install -r requirements.txt

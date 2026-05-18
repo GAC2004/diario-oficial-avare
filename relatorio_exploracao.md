@@ -32,6 +32,9 @@ Algumas informações como data da edição e número da edição não aparecem 
 
 ## Comparação com Projeto TCU
 
+Projeto TCU:
+- https://github.com/netoferraz/acordaos-tcu
+
 Semelhanças:
 - Coleta automatizada de documentos públicos
 - Organização em CSV
