@@ -44,7 +44,7 @@ Coletar automaticamente publicações do Diário Oficial de Avaré usando Python
     python src/scraper.py
 
 ## Instalar dependências
-python -m pip install -r requirements.txt
+    python -m pip install -r requirements.txt
 
 ## Executar geração da base
-python src/generate_base.py
+    python src/generate_base.py
