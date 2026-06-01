@@ -23,9 +23,10 @@ Coletar automaticamente publicações do Diário Oficial de Avaré usando Python
 ## Tecnologias
 
 - Python
-- requests
+- Requests
 - BeautifulSoup
-- pandas
+- Pandas
+- Git e GitHub
 
 ## Como executar
 
@@ -33,8 +34,7 @@ Coletar automaticamente publicações do Diário Oficial de Avaré usando Python
     python -m venv venv
 
 ## Ativar ambiente
-
-    Windows:
+## Windows:
         venv\Scripts\activate
 
 ## Instalar dependências:
@@ -42,3 +42,9 @@ Coletar automaticamente publicações do Diário Oficial de Avaré usando Python
 
 ## Executar projeto:
     python src/scraper.py
+
+## Instalar dependências
+python -m pip install -r requirements.txt
+
+## Executar geração da base
+python src/generate_base.py

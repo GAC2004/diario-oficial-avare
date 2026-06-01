@@ -21,10 +21,12 @@ Foi utilizado requests + BeautifulSoup.
 A escolha foi feita porque o HTML do site pode ser acessado diretamente sem necessidade inicial de JavaScript dinâmico.
 
 ## Bibliotecas Utilizadas
-
-- requests
-- BeautifulSoup
-- pandas
+Biblioteca  =	Função
+requests	=   Requisições HTTP
+beautifulsoup4	= Extração de HTML
+pandas = 	Manipulação de dados
+pdfplumber	= Extração de PDFs
+lxml = 	Parser HTML/XML
 
 ## Dificuldades Encontradas
 
@@ -44,3 +46,44 @@ Diferenças:
 - Projeto TCU possui escala maior
 - Diário Oficial de Avaré possui menos complexidade
 - O projeto atual é municipal
+
+## ETAPAS PROJETO
+
+## Etapa 1 — Coleta Inicial
+
+- Acesso para o portal do Diário Oficial;
+- Realizar requisições HTTP;
+- Identificar publicações;
+- Gerar arquivos CSV iniciais;
+
+## Etapa 2 — Extração e Processamento Textual
+
+- Implementação para extração textual de páginas HTML;
+- A implementação da limpeza e normalização dos textos;
+- A implementação da criação de base textual estruturada;
+- A implementação da rotulagem automática inicial;
+- A implementação da organização dos dados para NLP e Machine Learning.
+
+## Estrutura do Projeto Atualizada
+projeto-diario-avare/
+│
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   │   ├── base_textual.csv
+│   │   ├── amostra_rotulada.csv
+│
+├── docs/
+│   ├── dicionario_campos.md
+│   ├── relatorio_exploracao.md
+│
+├── notebooks/
+│
+├── src/
+│   ├── scraper.py
+│   ├── extract_text.py
+│   ├── preprocess.py
+│   ├── generate_base.py
+│
+├── requirements.txt
+├── README.md
