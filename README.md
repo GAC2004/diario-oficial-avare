@@ -1,32 +1,44 @@
-# Diário Oficial Inteligente de Avaré
+# 📘 Diário Oficial Inteligente de Avaré
 
-Projeto Final da disciplina Redes Neurais e IA Aplicada da Faculdade FEAP Avaré (Faculdade de Engenharia e Administração Paulista de Avaré)  
-Bacharelado em Engenharia da Computação
+Projeto Final da disciplina **Redes Neurais e IA Aplicada** da **Faculdade FEAP Avaré**
+(Faculdade de Engenharia e Administração Paulista de Avaré)
 
-## Professor Responsável da Matéria
+🎓 **Curso:** Bacharelado em Engenharia da Computação
 
-Prof° Fernando Oliveira
+---
 
-## Alunos Participantes do Projeto
+# 👨‍🏫 Professor Responsável da Matéria
 
-* Gabriela Arruda Carriel 
+**Prof. Fernando Oliveira**
+
+---
+
+# 👥 Alunos Participantes do Projeto
+
+* Gabriela Arruda Carriel
 * Stela Veiga Monteiro
 * José Leonardo Pereira dos Santos
 * Maria Júlia da Costa Teixeira
 * Enzo Fortes
 * Yehudi Witzel de Oliveira
 
-## Objetivo
+---
 
-Coletar automaticamente publicações do Diário Oficial de Avaré usando Python.
+# 🎯 Objetivo
 
-## Tecnologias
+Coletar automaticamente publicações do Diário Oficial de Avaré e estruturar os textos utilizando técnicas de Processamento de Linguagem Natural (NLP) para o futuro treinamento de Redes Neurais.
 
-- Python
-- Requests
-- BeautifulSoup
-- Pandas
-- Git e GitHub
+---
+
+# 🛠️ Tecnologias
+
+* Python
+* Requests *(Coleta de páginas)*
+* BeautifulSoup *(Raspagem de HTML)*
+* pdfplumber *(Extração de texto de arquivos PDF)*
+* fake-useragent *(Evitar bloqueios de requisições)*
+* Pandas *(Estruturação de bases de dados)*
+* Git e GitHub
 
 ---
 
@@ -34,7 +46,9 @@ Coletar automaticamente publicações do Diário Oficial de Avaré usando Python
 
 Siga os passos abaixo para executar corretamente o projeto.
 
-## 1️⃣ Clonar o repositório
+---
+
+## 1️⃣ Clonar o Repositório
 
 ```bash
 git clone https://github.com/GAC2004/diario-oficial-avare.git
@@ -42,7 +56,7 @@ git clone https://github.com/GAC2004/diario-oficial-avare.git
 
 ---
 
-## 2️⃣ Acessar a pasta do projeto
+## 2️⃣ Acessar a Pasta do Projeto
 
 ```bash
 cd diario-oficial-avare
@@ -50,7 +64,7 @@ cd diario-oficial-avare
 
 ---
 
-## 3️⃣ Criar ambiente virtual
+## 3️⃣ Criar Ambiente Virtual
 
 ```bash
 python -m venv venv
@@ -58,7 +72,7 @@ python -m venv venv
 
 ---
 
-## 4️⃣ Ativar ambiente virtual
+## 4️⃣ Ativar Ambiente Virtual
 
 ### Windows
 
@@ -74,7 +88,7 @@ Após ativar, o terminal deverá mostrar:
 
 ---
 
-## 5️⃣ Instalar as dependências
+## 5️⃣ Instalar as Dependências
 
 ```bash
 python -m pip install -r requirements.txt
@@ -84,9 +98,9 @@ python -m pip install -r requirements.txt
 
 # ▶️ Ordem de Execução dos Scripts
 
-## scraper.py
+## 🔹 scraper.py
 
-Executa a coleta inicial do portal.
+Executa a coleta inicial do portal e gera a listagem bruta de links.
 
 ```bash
 python src/scraper.py
@@ -94,9 +108,11 @@ python src/scraper.py
 
 ---
 
-## extract_text.py
+## 🔹 extract_text.py
 
-Realiza a extração textual das páginas HTML/PDF.
+Realiza a extração textual em paralelo *(multithreading)* das páginas HTML/PDF utilizando o pipeline de limpeza do arquivo `preprocess.py`.
+
+O script gera automaticamente os dois arquivos de saída.
 
 ```bash
 python src/extract_text.py
@@ -104,31 +120,29 @@ python src/extract_text.py
 
 ---
 
-## generate_base.py
+# 📂 Arquivos Gerados
 
-Gera automaticamente:
+Após a execução dos scripts, a estrutura de pastas do projeto conterá:
 
-* base textual estruturada;
-* amostra rotulada;
-* organização dos dados para NLP.
+---
 
-```bash
-python src/generate_base.py
+## 📄 Base de Dados Bruta *(Links Coletados)*
+
+```text
+data/diario_avare.csv
 ```
 
 ---
 
-# 📂 Arquivos Gerados
-
-Após a execução dos scripts, serão gerados:
-
-## Base textual
+## 📄 Base Textual Limpa *(Texto Integral Tratado)*
 
 ```text
 data/processed/base_textual.csv
 ```
 
-## Amostra rotulada
+---
+
+## 📄 Amostra Rotulada *(Mapeada nas Classes Oficiais de NLP)*
 
 ```text
 data/processed/amostra_rotulada.csv
@@ -148,7 +162,7 @@ python -m pip freeze > requirements.txt
 
 # ⚠️ Observações
 
-Durante o desenvolvimento foi identificado bloqueio do `pip.exe` pelo Device Guard do Windows.
+Durante o desenvolvimento foi identificado bloqueio do `pip.exe` pelo **Device Guard** do Windows.
 
 Por esse motivo, os comandos foram executados utilizando:
 

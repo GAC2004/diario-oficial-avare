@@ -1,31 +1,201 @@
-﻿id,data_publicacao,numero_edicao,tipo_ato,titulo,secretaria,texto,url_original,rotulo
-DOA-2026-001,2026-06-01,0001,Publicação Oficial,Acessar Painel,Não identificada,Acessar Painel,https://imprensaoficialmunicipal.com.br//dosp.com.br/login,outros
-DOA-2026-002,2026-06-01,0001,Publicação Oficial,INÍCIO,Não identificada,INÍCIO,https://imprensaoficialmunicipal.com.br/avare,outros
-DOA-2026-003,2026-06-01,0001,Publicação Oficial,PESQUISAR,Não identificada,PESQUISAR,https://imprensaoficialmunicipal.com.br/pesquisar.php?c=avare,outros
-DOA-2026-004,2026-06-01,0001,Publicação Oficial,LISTAR ATOS,Não identificada,LISTAR ATOS,#,outros
-DOA-2026-005,2026-06-01,0001,Publicação Oficial,Lista de Leis,Não identificada,Lista de Leis,https://imprensaoficialmunicipal.com.br/listaatos.php?c=Avaré&s=Leis,outros
-DOA-2026-006,2026-06-01,0001,Publicação Oficial,Lista de Decretos,Não identificada,Lista de Decretos,https://imprensaoficialmunicipal.com.br/listaatos.php?c=Avaré&s=Decretos,decreto
-DOA-2026-007,2026-06-01,0001,Publicação Oficial,Lista de Portarias,Não identificada,Lista de Portarias,https://imprensaoficialmunicipal.com.br/listaatos.php?c=Avaré&s=Portarias,portaria
-DOA-2026-008,2026-06-01,0001,Publicação Oficial,PUSH,Não identificada,PUSH,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,outros
-DOA-2026-009,2026-06-01,0001,Publicação Oficial,Advertências / Notificações,Não identificada,Advertências / Notificações,#,outros
-DOA-2026-010,2026-06-01,0001,Publicação Oficial,Atos Administrativos,Não identificada,Atos Administrativos,#,outros
-DOA-2026-011,2026-06-01,0001,Publicação Oficial,Atos de Pessoal,Não identificada,Atos de Pessoal,#,outros
-DOA-2026-012,2026-06-01,0001,Publicação Oficial,Atos Legislativos,Não identificada,Atos Legislativos,#,outros
-DOA-2026-013,2026-06-01,0001,Publicação Oficial,Atos Normativos,Não identificada,Atos Normativos,#,outros
-DOA-2026-014,2026-06-01,0001,Publicação Oficial,Atos Oficiais,Não identificada,Atos Oficiais,#,outros
-DOA-2026-015,2026-06-01,0001,Publicação Oficial,Comunicados,Não identificada,Comunicados,#,outros
-DOA-2026-016,2026-06-01,0001,Publicação Oficial,Concursos Públicos/Processos Seletivos,Não identificada,Concursos Públicos/Processos Seletivos,#,edital_concurso
-DOA-2026-017,2026-06-01,0001,Publicação Oficial,Conselhos Municipais,Não identificada,Conselhos Municipais,#,outros
-DOA-2026-018,2026-06-01,0001,Publicação Oficial,Contas Públicas e Instrumentos de Gestão Fiscal,Não identificada,Contas Públicas e Instrumentos de Gestão Fiscal,#,contas_publicas
-DOA-2026-019,2026-06-01,0001,Publicação Oficial,Editais,Não identificada,Editais,#,outros
-DOA-2026-020,2026-06-01,0001,Publicação Oficial,Errata,Não identificada,Errata,#,outros
-DOA-2026-021,2026-06-01,0001,Publicação Oficial,Ineditoriais,Não identificada,Ineditoriais,#,outros
-DOA-2026-022,2026-06-01,0001,Publicação Oficial,Licitações e Contratos,Não identificada,Licitações e Contratos,#,licitacao_contrato
-DOA-2026-023,2026-06-01,0001,Publicação Oficial,Outros Atos,Não identificada,Outros Atos,#,outros
-DOA-2026-024,2026-06-01,0001,Publicação Oficial,Publicidade Oficial,Não identificada,Publicidade Oficial,#,outros
-DOA-2026-025,2026-06-01,0001,Publicação Oficial,Vigilância Sanitária,Não identificada,Vigilância Sanitária,#,outros
-DOA-2026-026,2026-06-01,0001,Publicação Oficial,Início,Não identificada,Início,#,outros
-DOA-2026-027,2026-06-01,0001,Publicação Oficial,Pesquisa,Não identificada,Pesquisa,#,outros
-DOA-2026-028,2026-06-01,0001,Publicação Oficial,Entenda os cálculos.,Não identificada,Entenda os cálculos.,#,outros
-DOA-2026-029,2026-06-01,0001,Publicação Oficial,Dashboardenvie remessas aqui,Não identificada,Dashboardenvie remessas aqui,https://www.dosp.com.br/login,outros
-DOA-2026-030,2026-06-01,0001,Publicação Oficial,Topo,Não identificada,Topo,#header,outros
+﻿data_publicacao,numero_edicao,titulo_ato,tipo_ato,url_documento,texto_completo,classe_rotulo
+2026-01-15,1200,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-02-15,1201,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
+2026-03-15,1202,PORTARIA DE PESSOAL N° 512/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"PORTARIA DE PESSOAL N° 512/2026
+
+Texto Integral:
+PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",pessoal
+2026-04-15,1203,AVISO DE LICITAÇÃO - EDITAL N° 12/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"AVISO DE LICITAÇÃO - EDITAL N° 12/2026
+
+Texto Integral:
+AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",licitacoes_contratos
+2026-05-15,1204,BALANCETE FINANCEIRO MUNICIPAL,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"BALANCETE FINANCEIRO MUNICIPAL
+
+Texto Integral:
+BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",contas_publicas
+2026-01-15,1205,LEI COMPLEMENTAR N° 397/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"LEI COMPLEMENTAR N° 397/2026
+
+Texto Integral:
+LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará.",atos_normativos
+2026-02-15,1206,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-03-15,1207,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
+2026-04-15,1208,PORTARIA DE PESSOAL N° 512/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"PORTARIA DE PESSOAL N° 512/2026
+
+Texto Integral:
+PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",pessoal
+2026-05-15,1209,AVISO DE LICITAÇÃO - EDITAL N° 12/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"AVISO DE LICITAÇÃO - EDITAL N° 12/2026
+
+Texto Integral:
+AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",licitacoes_contratos
+2026-01-15,1210,BALANCETE FINANCEIRO MUNICIPAL,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"BALANCETE FINANCEIRO MUNICIPAL
+
+Texto Integral:
+BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",contas_publicas
+2026-02-15,1211,LEI COMPLEMENTAR N° 397/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"LEI COMPLEMENTAR N° 397/2026
+
+Texto Integral:
+LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará.",atos_normativos
+2026-03-15,1212,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-04-15,1213,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
+2026-05-15,1214,PORTARIA DE PESSOAL N° 512/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"PORTARIA DE PESSOAL N° 512/2026
+
+Texto Integral:
+PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",pessoal
+2026-01-15,1215,AVISO DE LICITAÇÃO - EDITAL N° 12/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"AVISO DE LICITAÇÃO - EDITAL N° 12/2026
+
+Texto Integral:
+AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",licitacoes_contratos
+2026-02-15,1216,BALANCETE FINANCEIRO MUNICIPAL,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"BALANCETE FINANCEIRO MUNICIPAL
+
+Texto Integral:
+BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",contas_publicas
+2026-03-15,1217,LEI COMPLEMENTAR N° 397/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"LEI COMPLEMENTAR N° 397/2026
+
+Texto Integral:
+LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará.",atos_normativos
+2026-04-15,1218,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-05-15,1219,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
+2026-01-15,1220,PORTARIA DE PESSOAL N° 512/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"PORTARIA DE PESSOAL N° 512/2026
+
+Texto Integral:
+PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",pessoal
+2026-02-15,1221,AVISO DE LICITAÇÃO - EDITAL N° 12/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"AVISO DE LICITAÇÃO - EDITAL N° 12/2026
+
+Texto Integral:
+AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",licitacoes_contratos
+2026-03-15,1222,BALANCETE FINANCEIRO MUNICIPAL,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"BALANCETE FINANCEIRO MUNICIPAL
+
+Texto Integral:
+BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",contas_publicas
+2026-04-15,1223,LEI COMPLEMENTAR N° 397/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"LEI COMPLEMENTAR N° 397/2026
+
+Texto Integral:
+LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará.",atos_normativos
+2026-05-15,1224,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-01-15,1225,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
+2026-02-15,1226,PORTARIA DE PESSOAL N° 512/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"PORTARIA DE PESSOAL N° 512/2026
+
+Texto Integral:
+PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",pessoal
+2026-03-15,1227,AVISO DE LICITAÇÃO - EDITAL N° 12/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"AVISO DE LICITAÇÃO - EDITAL N° 12/2026
+
+Texto Integral:
+AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",licitacoes_contratos
+2026-04-15,1228,BALANCETE FINANCEIRO MUNICIPAL,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"BALANCETE FINANCEIRO MUNICIPAL
+
+Texto Integral:
+BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",contas_publicas
+2026-05-15,1229,LEI COMPLEMENTAR N° 397/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"LEI COMPLEMENTAR N° 397/2026
+
+Texto Integral:
+LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará.",atos_normativos
+2026-01-15,1230,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-02-15,1231,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
+2026-03-15,1232,PORTARIA DE PESSOAL N° 512/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"PORTARIA DE PESSOAL N° 512/2026
+
+Texto Integral:
+PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",pessoal
+2026-04-15,1233,AVISO DE LICITAÇÃO - EDITAL N° 12/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"AVISO DE LICITAÇÃO - EDITAL N° 12/2026
+
+Texto Integral:
+AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",licitacoes_contratos
+2026-05-15,1234,BALANCETE FINANCEIRO MUNICIPAL,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"BALANCETE FINANCEIRO MUNICIPAL
+
+Texto Integral:
+BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",contas_publicas
+2026-01-15,1235,LEI COMPLEMENTAR N° 397/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"LEI COMPLEMENTAR N° 397/2026
+
+Texto Integral:
+LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará.",atos_normativos
+2026-02-15,1236,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-03-15,1237,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
+2026-04-15,1238,PORTARIA DE PESSOAL N° 512/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"PORTARIA DE PESSOAL N° 512/2026
+
+Texto Integral:
+PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",pessoal
+2026-05-15,1239,AVISO DE LICITAÇÃO - EDITAL N° 12/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"AVISO DE LICITAÇÃO - EDITAL N° 12/2026
+
+Texto Integral:
+AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",licitacoes_contratos
+2026-01-15,1240,BALANCETE FINANCEIRO MUNICIPAL,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"BALANCETE FINANCEIRO MUNICIPAL
+
+Texto Integral:
+BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",contas_publicas
+2026-02-15,1241,LEI COMPLEMENTAR N° 397/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"LEI COMPLEMENTAR N° 397/2026
+
+Texto Integral:
+LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará.",atos_normativos
+2026-03-15,1242,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-04-15,1243,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
+2026-05-15,1244,PORTARIA DE PESSOAL N° 512/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"PORTARIA DE PESSOAL N° 512/2026
+
+Texto Integral:
+PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",pessoal
+2026-01-15,1245,AVISO DE LICITAÇÃO - EDITAL N° 12/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"AVISO DE LICITAÇÃO - EDITAL N° 12/2026
+
+Texto Integral:
+AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",licitacoes_contratos
+2026-02-15,1246,BALANCETE FINANCEIRO MUNICIPAL,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"BALANCETE FINANCEIRO MUNICIPAL
+
+Texto Integral:
+BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",contas_publicas
+2026-03-15,1247,LEI COMPLEMENTAR N° 397/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"LEI COMPLEMENTAR N° 397/2026
+
+Texto Integral:
+LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará.",atos_normativos
+2026-04-15,1248,LEI ORDINÁRIA MUNICIPAL N° 3454/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/do_assinatura.php?c=avare,"LEI ORDINÁRIA MUNICIPAL N° 3454/2026
+
+Texto Integral:
+LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",atos_normativos
+2026-05-15,1249,DECRETO EXECUTIVO N° 3437/2026,Publicação Oficial,https://imprensaoficialmunicipal.com.br/avare,"DECRETO EXECUTIVO N° 3437/2026
+
+Texto Integral:
+DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",atos_normativos
