@@ -1,33 +1,77 @@
+#preprocess.py
+import pandas as pd
+import json
+import os
 import re
-import unicodedata
+from collections import Counter
 
-def limpar_texto(texto):
-    if not texto:
-        return ""
-    # Remove excesso de espaços horizontais e tabulações
-    texto = re.sub(r'[ \t]+', ' ', texto)
-    # Padroniza quebras de linha excessivas (máximo duas seguidas)
-    texto = re.sub(r'\n{3,}', '\n\n', texto)
-    # Remove linhas que contêm apenas números isolados (comum em rodapés)
-    texto = re.sub(r'^\s*\d+\s*$', '', texto, flags=re.MULTILINE)
-    # Remove caracteres invisíveis e de controle ASCII
-    texto = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', '', texto)
-    return texto.strip()
+CSV = "data/processed/diarios.csv"
+OUT_VOCAB = "data/processed/vocab.json"
+OUT_DATASET = "data/processed/dataset_final.csv"
 
-def normalizar_texto(texto):
-    if not texto:
-        return ""
-    # Força a normalização Unicode NFC para evitar bugs de acentuação na IA
-    texto = unicodedata.normalize('NFC', texto)
-    # Corrige hifens duplos deixados por quebras de página de PDF
-    texto = texto.replace('--', '-')
+def limpar_texto(texto: str) -> str:
+    texto = texto.lower()
+    texto = re.sub(r"[^a-zà-ú0-9\s]", " ", texto)
+    texto = re.sub(r"\s+", " ", texto).strip()
     return texto
 
-def processar(texto):
-    """Executa o pipeline completo de tratamento textual"""
-    texto = limpar_texto(texto)
-    texto = normalizar_texto(texto)
-    return texto
+def tokenizar(texto: str):
+    return texto.split()
 
-if __name__ == '__main__':
-    print("Pipeline de pré-processamento pronto para uso.")
+def gerar_label(texto):
+    t = texto.lower()
+    if "decreto" in t:
+        return 0
+    if "lei" in t:
+        return 1
+    if "edital" in t:
+        return 2
+    return 0
+
+def processar():
+    if not os.path.exists(CSV):
+        raise FileNotFoundError("diarios.csv não existe. Rode extract_text.py primeiro.")
+
+    df = pd.read_csv(CSV)
+
+    counter = Counter()
+    textos_limpos = []
+    labels = []
+
+    print("Processando textos...")
+
+    for texto in df["texto"].fillna("").astype(str):
+        limpo = limpar_texto(texto)
+        tokens = tokenizar(limpo)
+
+        counter.update(tokens)
+
+        textos_limpos.append(limpo)
+        labels.append(gerar_label(limpo))
+
+    # vocab
+    vocab = {"<PAD>": 0, "<UNK>": 1}
+
+    for i, (word, _) in enumerate(counter.most_common(20000)):
+        vocab[word] = i + 2
+
+    # salva vocab
+    os.makedirs("data/processed", exist_ok=True)
+    with open(OUT_VOCAB, "w", encoding="utf-8") as f:
+        json.dump(vocab, f, ensure_ascii=False)
+
+    # salva dataset FINAL (isso faltava!)
+    df_out = pd.DataFrame({
+         "iddo": df["iddo"],
+         "data": df["data"],
+        "texto": textos_limpos,
+        "label": labels
+    })
+
+    df_out.to_csv(OUT_DATASET, index=False, encoding="utf-8")
+
+    print("OK dataset_final criado:", len(df_out))
+    print("Vocab:", len(vocab))
+
+if __name__ == "__main__":
+    processar()

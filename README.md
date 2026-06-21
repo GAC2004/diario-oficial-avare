@@ -1,54 +1,124 @@
 # 📘 Diário Oficial Inteligente de Avaré
 
-Projeto Final da disciplina **Redes Neurais e IA Aplicada** da **Faculdade FEAP Avaré**
-(Faculdade de Engenharia e Administração Paulista de Avaré)
+Projeto Final da disciplina **Redes Neurais e IA Aplicada**, desenvolvido na **Faculdade de Engenharia e Administração Paulista de Avaré (FEAP)**.
 
 🎓 **Curso:** Bacharelado em Engenharia da Computação
 
 ---
 
-# 👨‍🏫 Professor Responsável da Matéria
+# 👨‍🏫 Professor Responsável
 
 **Prof. Fernando Oliveira**
 
 ---
 
-# 👥 Alunos Participantes do Projeto
+# 👥 Equipe
 
-* Gabriela Arruda Carriel
-* Stela Veiga Monteiro
-* José Leonardo Pereira dos Santos
-* Maria Júlia da Costa Teixeira
-* Enzo Fortes
-* Yehudi Witzel de Oliveira
-
----
-
-# 🎯 Objetivo
-
-Coletar automaticamente publicações do Diário Oficial de Avaré e estruturar os textos utilizando técnicas de Processamento de Linguagem Natural (NLP) para o futuro treinamento de Redes Neurais.
+- Gabriela Arruda Carriel
+- Stela Veiga Monteiro
+- José Leonardo Pereira dos Santos
+- Maria Júlia da Costa Teixeira
+- Enzo Fortes
+- Yehudi Witzel de Oliveira
 
 ---
 
-# 🛠️ Tecnologias
+# 📖 Sobre o Projeto
 
-* Python
-* Requests *(Coleta de páginas)*
-* BeautifulSoup *(Raspagem de HTML)*
-* pdfplumber *(Extração de texto de arquivos PDF)*
-* fake-useragent *(Evitar bloqueios de requisições)*
-* Pandas *(Estruturação de bases de dados)*
-* Git e GitHub
+O projeto tem como objetivo automatizar a coleta, processamento e classificação das publicações do Diário Oficial do Município de Avaré utilizando técnicas de Inteligência Artificial e Processamento de Linguagem Natural (NLP).
+
+O sistema realiza todo o pipeline de processamento, desde a obtenção das publicações até sua classificação automática em categorias administrativas.
 
 ---
 
-# 🚀 Como Executar o Projeto
+# 🎯 Objetivos
 
-Siga os passos abaixo para executar corretamente o projeto.
+- Automatizar a coleta das publicações do Diário Oficial.
+- Extrair texto dos documentos em PDF.
+- Realizar limpeza e normalização dos textos.
+- Construir uma base de dados estruturada.
+- Treinar uma Rede Neural para classificação automática.
+- Disponibilizar uma interface web para consulta e classificação.
 
 ---
 
-## 1️⃣ Clonar o Repositório
+# ⚙️ Funcionalidades
+
+✔ Coleta automática do Diário Oficial
+
+✔ Download dos arquivos PDF
+
+✔ Extração textual dos documentos
+
+✔ Pré-processamento utilizando NLP
+
+✔ Criação automática da base de dados
+
+✔ Treinamento da Rede Neural
+
+✔ Classificação automática dos atos públicos
+
+✔ Interface Web desenvolvida em Streamlit
+
+---
+
+# 🛠 Tecnologias Utilizadas
+
+## Linguagem
+
+- Python 3
+
+## Bibliotecas
+
+- PyTorch
+- Pandas
+- Requests
+- BeautifulSoup4
+- pdfplumber
+- fake-useragent
+- Streamlit
+- Scikit-learn
+- tqdm
+
+## Ferramentas
+
+- Git
+- GitHub
+- Visual Studio Code
+
+---
+
+# 📂 Estrutura do Projeto
+
+```
+diario-oficial-avare/
+
+│
+├── data/
+│   ├── pdfs/
+│   ├── processed/
+│   └── diario_avare.csv
+│
+├── models/
+│
+├── src/
+│   ├── scraper.py
+│   ├── extract_text.py
+│   ├── preprocess.py
+│   ├── train.py
+│   ├── model.py
+│   └── app.py
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+
+---
+
+# 🚀 Instalação
+
+## 1. Clonar o repositório
 
 ```bash
 git clone https://github.com/GAC2004/diario-oficial-avare.git
@@ -56,7 +126,7 @@ git clone https://github.com/GAC2004/diario-oficial-avare.git
 
 ---
 
-## 2️⃣ Acessar a Pasta do Projeto
+## 2. Entrar na pasta
 
 ```bash
 cd diario-oficial-avare
@@ -64,7 +134,7 @@ cd diario-oficial-avare
 
 ---
 
-## 3️⃣ Criar Ambiente Virtual
+## 3. Criar ambiente virtual
 
 ```bash
 python -m venv venv
@@ -72,7 +142,7 @@ python -m venv venv
 
 ---
 
-## 4️⃣ Ativar Ambiente Virtual
+## 4. Ativar ambiente virtual
 
 ### Windows
 
@@ -80,15 +150,15 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-Após ativar, o terminal deverá mostrar:
+### Linux/macOS
 
-```text
-(venv)
+```bash
+source venv/bin/activate
 ```
 
 ---
 
-## 5️⃣ Instalar as Dependências
+## 5. Instalar dependências
 
 ```bash
 python -m pip install -r requirements.txt
@@ -96,61 +166,158 @@ python -m pip install -r requirements.txt
 
 ---
 
-# ▶️ Ordem de Execução dos Scripts
+# ▶ Pipeline de Execução
 
-## 🔹 scraper.py
-
-Executa a coleta inicial do portal e gera a listagem bruta de links.
+## 1. Coleta dos Diários Oficiais
 
 ```bash
 python src/scraper.py
 ```
 
----
+Gera:
 
-## 🔹 extract_text.py
-
-Realiza a extração textual em paralelo *(multithreading)* das páginas HTML/PDF utilizando o pipeline de limpeza do arquivo `preprocess.py`.
-
-O script gera automaticamente os dois arquivos de saída.
-
-```bash
-python src/extract_text.py
 ```
-
----
-
-# 📂 Arquivos Gerados
-
-Após a execução dos scripts, a estrutura de pastas do projeto conterá:
-
----
-
-## 📄 Base de Dados Bruta *(Links Coletados)*
-
-```text
 data/diario_avare.csv
 ```
 
 ---
 
-## 📄 Base Textual Limpa *(Texto Integral Tratado)*
+## 2. Extração dos textos
 
-```text
+```bash
+python src/extract_text.py
+```
+
+Gera:
+
+```
 data/processed/base_textual.csv
 ```
 
 ---
 
-## 📄 Amostra Rotulada *(Mapeada nas Classes Oficiais de NLP)*
+## 3. Treinamento da Rede Neural
 
-```text
+```bash
+python src/train.py
+```
+
+Gera:
+
+- modelo treinado
+- encoder de classes
+- métricas
+
+---
+
+## 4. Executar a Interface Web
+
+```bash
+streamlit run src/app.py
+```
+
+---
+
+# 📄 Arquivos Gerados
+
+## Base de links
+
+```
+data/diario_avare.csv
+```
+
+---
+
+## Base textual
+
+```
+data/processed/base_textual.csv
+```
+
+---
+
+## Amostra rotulada
+
+```
 data/processed/amostra_rotulada.csv
 ```
 
 ---
 
-# 🛠️ Atualizar Dependências
+## Modelo treinado
+
+```
+models/modelo.pth
+```
+
+---
+
+## Encoder
+
+```
+models/label_encoder.pkl
+```
+
+---
+
+# 🧠 Modelo de Inteligência Artificial
+
+O projeto utiliza uma Rede Neural desenvolvida em **PyTorch** para classificar automaticamente os textos do Diário Oficial.
+
+Fluxo:
+
+```
+Texto
+
+↓
+
+Pré-processamento
+
+↓
+
+Tokenização
+
+↓
+
+Vetorização
+
+↓
+
+Rede Neural
+
+↓
+
+Categoria prevista
+```
+
+---
+
+# 🌐 Interface Web
+
+A aplicação foi desenvolvida utilizando **Streamlit**, permitindo:
+
+- pesquisa por palavras-chave;
+- filtro por ano;
+- filtro por tipo de ato;
+- visualização das classificações;
+- exibição da probabilidade prevista pelo modelo.
+
+---
+
+# 📈 Resultados
+
+O modelo foi treinado utilizando textos previamente rotulados da base de dados.
+
+Após o treinamento são exibidas métricas como:
+
+- Accuracy
+- Precision
+- Recall
+- F1-Score
+
+---
+
+# 🔄 Atualizar Dependências
 
 Caso novas bibliotecas sejam instaladas:
 
@@ -162,9 +329,9 @@ python -m pip freeze > requirements.txt
 
 # ⚠️ Observações
 
-Durante o desenvolvimento foi identificado bloqueio do `pip.exe` pelo **Device Guard** do Windows.
+Durante o desenvolvimento foi identificado bloqueio do **pip.exe** pelo Windows Device Guard.
 
-Por esse motivo, os comandos foram executados utilizando:
+Por esse motivo, recomenda-se utilizar:
 
 ```bash
 python -m pip
@@ -175,3 +342,17 @@ em vez de:
 ```bash
 pip
 ```
+
+---
+
+# 📚 Disciplina
+
+Projeto desenvolvido para a disciplina de **Redes Neurais e IA Aplicada**.
+
+Faculdade de Engenharia e Administração Paulista de Avaré (FEAP).
+
+---
+
+# 📄 Licença
+
+Este projeto possui finalidade exclusivamente acadêmica.

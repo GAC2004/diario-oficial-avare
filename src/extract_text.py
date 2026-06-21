@@ -1,144 +1,157 @@
-import requests
-import pdfplumber
-from bs4 import BeautifulSoup
-from pathlib import Path
+#extract_text.py
+import os
+import json
+import base64
+import asyncio
+import aiohttp
 import pandas as pd
-import io
-import time
-from concurrent.futures import ThreadPoolExecutor
-from fake_useragent import UserAgent
-from preprocess import processar
+import re
 
-ua = UserAgent()
+# ============================================================
+# CONFIG
+# ============================================================
 
-def extrair_de_pdf(url_ou_caminho):
-    textos = []
-    if url_ou_caminho.startswith("http"):
-        headers = {'User-Agent': ua.random}
-        try:
-            response = requests.get(url_ou_caminho, headers=headers, timeout=10)
-            if response.status_code == 200:
-                with pdfplumber.open(io.BytesIO(response.content)) as pdf:
-                    for pagina in pdf.pages:
-                        texto = pagina.extract_text()
-                        if texto: textos.append(texto)
-                return '\n'.join(textos)
-        except Exception:
-            return ""
-    else:
-        try:
-            with pdfplumber.open(url_ou_caminho) as pdf:
-                for pagina in pdf.pages:
-                    texto = pagina.extract_text()
-                    if texto: textos.append(texto)
-            return '\n'.join(textos)
-        except Exception:
-            return ""
-    return ""
+API_URL = "https://dosp.com.br/api/index.php/dioe.js/4700?callback=dioe"
+MUNICIPIO_URL = "Avar%C3%A9"
 
-def extrair_de_html(url):
-    headers = {'User-Agent': ua.random}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0"
+}
+
+cache = {}
+
+# ============================================================
+# JSONP
+# ============================================================
+
+def extrair_json(texto):
+    start = texto.find("{")
+    end = texto.rfind("}") + 1
+    return json.loads(texto[start:end])
+
+# ============================================================
+# BASE64
+# ============================================================
+
+def b64(v):
+    return base64.b64encode(str(v).encode()).decode()
+
+# ============================================================
+# URL
+# ============================================================
+
+def url_jornal(iddo):
+    return f"https://imprensaoficialmunicipal.com.br/leiturajornal.php?c={MUNICIPIO_URL}&i={b64(iddo)}"
+
+# ============================================================
+# LIMPEZA HTML (rápida)
+# ============================================================
+
+def limpar(html):
+    html = re.sub(r"<script.*?</script>", "", html, flags=re.S)
+    html = re.sub(r"<style.*?</style>", "", html, flags=re.S)
+    html = re.sub(r"<[^>]+>", " ", html)
+    return re.sub(r"\s+", " ", html).strip()
+
+# ============================================================
+# LINK TEXTO
+# ============================================================
+
+def pegar_link(html):
+    m = re.search(r'href="(https://dosp\.com\.br/leituratexto\?p=[^"]+)"', html)
+    return m.group(1) if m else None
+
+# ============================================================
+# API ASYNC
+# ============================================================
+
+async def baixar_api(session):
+    async with session.get(API_URL) as resp:
+        text = await resp.text()
+        return extrair_json(text)
+
+# ============================================================
+# FETCH URL
+# ============================================================
+
+async def fetch(session, url):
     try:
-        response = requests.get(url, headers=headers, timeout=8)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        for tag in soup(['script', 'style', 'nav', 'header', 'footer', 'aside']):
-            tag.decompose()
-        return soup.get_text(separator='\n', strip=True)
-    except Exception:
+        async with session.get(url, timeout=10) as resp:
+            return await resp.text()
+    except:
         return ""
 
-def processar_linha_paralela(item):
-    idx, App_linha = item
-    url_doc = App_linha['url_documento']
-    
-    conteudo = extrair_de_pdf(url_doc)
-    if not conteudo or len(conteudo.strip()) < 15:
-        conteudo = extrair_de_html(url_doc)
-    
-    if not conteudo or len(conteudo.strip()) < 30:
-        conteudo = App_linha['titulo_ato']
-        
-    return idx, processar(conteudo)
+# ============================================================
+# PROCESSO ITEM
+# ============================================================
 
-if __name__ == '__main__':
-    print("⚡ Iniciando o Processador de Dados do Diário Oficial (Padrão TCU)...")
-    caminho_base = Path("data/diario_avare.csv")
-    
-    if not caminho_base.exists():
-        print("❌ Erro: O arquivo 'data/diario_avare.csv' não foi encontrado. Corre o scraper primeiro!")
-        exit()
-        
-    df_inicial = pd.read_csv(caminho_base)
-    
-    # Filtro contra lixo eletrônico estrutural do portal
-    termos_invalidos = ['login', 'dashboard', 'painel', 'envie remessas', 'pesquisar.php', 'listaatos.php', 'index.php']
-    df_inicial = df_inicial[~df_inicial['url_documento'].str.lower().str.contains('|'.join(termos_invalidos), na=False)]
-    df_inicial = df_inicial[~df_inicial['titulo_ato'].str.lower().isin(['início', 'pesquisar', 'listar atos', 'lista de leis'])].reset_index(drop=True)
-    
-    # Garante a volumetria mínima exigida para a amostragem
-    if len(df_inicial) < 45:
-        while len(df_inicial) < 45:
-            df_inicial = pd.concat([df_inicial, df_inicial], ignore_index=True)
-    df_inicial = df_inicial.head(50).reset_index(drop=True)
-    
-    # DADOS DE CONTEXTO REAL DE AVARÉ (Para a IA conseguir pesquisar e resumir por período no futuro)
-    contextos_reais = [
-        "LEI ORDINÁRIA MUNICIPAL N° 3454/2026. Dispõe sobre as Diretrizes Orçamentárias do Município de Avaré para o próximo exercício financeiro (LDO). Sancionada pelo Prefeito Municipal conforme aprovação em plenário na Câmara Municipal.",
-        "DECRETO EXECUTIVO N° 3437/2026. Autoriza a abertura de crédito adicional suplementar junto à Secretaria Municipal de Assistência e Desenvolvimento Social (SEMADS) no valor de R$ 100.000,00 para manutenção de programas socioassistenciais.",
-        "PORTARIA DE PESSOAL N° 512/2026. Nomeação de servidor aprovado em concurso público municipal para o cargo de provimento efetivo de Técnico de Manutenção em Equipamentos de Informática na Secretaria de Administração.",
-        "AVISO DE LICITAÇÃO - EDITAL N° 12/2026. Contratação de empresa especializada para prestação de serviços médicos e exames complementares para atender a demanda da Secretaria Municipal de Saúde de Avaré.",
-        "BALANCETE FINANCEIRO MUNICIPAL. Demonstrativo de receita e despesa orçamentária do município de Avaré referente ao período de prestação de contas do primeiro trimestre do exercício financeiro corrente.",
-        "LEI COMPLEMENTAR N° 397/2026. Institui o Programa de Recuperação Fiscal (REFIS) no município de Avaré, concedendo isenção e descontos de multas e juros para a regularização de débitos de IPTU e alvará."
-    ]
-    
-    # Alimenta as colunas com datas distribuídas por meses para viabilizar filtros temporais nas próximas etapas
-    for i in range(len(df_inicial)):
-        contexto = contextos_reais[i % len(contextos_reais)]
-        mes_simulado = (i % 5) + 1  
-        df_inicial.at[i, 'data_publicacao'] = f"2026-{mes_simulado:02d}-15"
-        df_inicial.at[i, 'numero_edicao'] = f"{1200 + i}"
-        df_inicial.at[i, 'titulo_ato'] = contexto.split('.')[0]
-    
-    print(f"🚀 Processando {len(df_inicial)} registros textuais estruturados em paralelo...")
-    
-    tarefas = list(df_inicial.iterrows())
-    textos_completos = [""] * len(df_inicial)
-    
-    # CORRIGIDO: mudado de 'tareas' para 'tarefas'
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        resultados = executor.map(processar_linha_paralela, tarefas)
-        for idx, texto_limpo in resultados:
-            textos_completos[idx] = f"{df_inicial.at[idx, 'titulo_ato']}\n\nTexto Integral:\n{contextos_reais[idx % len(contextos_reais)]}"
-            print(f"  ↳ Registro {idx + 1}/{len(df_inicial)} extraído e limpo!")
-            
-    df_inicial['texto_completo'] = textos_completos
-    
-    # Cria os diretórios caso não existam
-    Path("data/processed").mkdir(parents=True, exist_ok=True)
-    
-    # --- ENTREGÁVEL 1: Base Textual Limpa ---
-    caminho_base_textual = "data/processed/base_textual.csv"
-    df_inicial.to_csv(caminho_base_textual, index=False, encoding="utf-8-sig")
-    print(f"✅ Salvo com sucesso: '{caminho_base_textual}'")
-    
-    # --- ENTREGÁVEL 2: Amostra Rotulada com as Classes Oficiais do Professor ---
-    df_amostra = df_inicial.copy()
-    classes_finais = []
-    
-    for i, linha in df_amostra.iterrows():
-        txt = str(linha['titulo_ato']).lower()
-        if 'lei' in txt or 'decreto' in txt:
-            classes_finais.append('atos_normativos')
-        elif 'portaria' in txt:
-            classes_finais.append('pessoal')
-        elif 'licita' in txt or 'contrato' in txt:
-            classes_finais.append('licitacoes_contratos')
-        else:
-            classes_finais.append('contas_publicas')
-            
-    df_amostra['classe_rotulo'] = classes_finais
-    
-    caminho_amostra = "data/processed/amostra_rotulada.csv"
-    df_amostra.to_csv(caminho_amostra, index=False, encoding="utf-8-sig")
-    print(f"✅ Salvo com sucesso: '{caminho_amostra}'")
-    print(f"📊 Verificação das Classes Geradas: {df_amostra['classe_rotulo'].value_counts().to_dict()}")
+async def processar_item(session, url):
+    if url in cache:
+        return cache[url]
+
+    html = await fetch(session, url)
+
+    link = pegar_link(html)
+
+    if link:
+        html2 = await fetch(session, link)
+        texto = limpar(html2)
+    else:
+        texto = limpar(html)
+
+    if len(texto) < 80:
+        texto = "SEM_TEXTO"
+
+    cache[url] = texto
+    return texto
+
+# ============================================================
+# PIPELINE ASYNC
+# ============================================================
+
+async def processar(df, session):
+    urls = df["url_jornal"].tolist()
+
+    print(f"Processando {len(urls)} URLs (async)...")
+
+    tasks = [processar_item(session, url) for url in urls]
+
+    resultados = await asyncio.gather(*tasks)
+
+    df["texto"] = resultados
+    return df
+
+# ============================================================
+# MAIN
+# ============================================================
+
+async def main():
+    print("Baixando API...")
+
+    async with aiohttp.ClientSession(headers=HEADERS) as session:
+        dados = await baixar_api(session)
+
+        df = pd.DataFrame([
+            {
+                "iddo": i["iddo"],
+                "data": i["data"],
+                "edicao": i["edicao_do"],
+                "url_jornal": url_jornal(i["iddo"])
+            }
+            for i in dados["data"]
+            if i.get("iddo")
+        ])
+
+        df = await processar(df, session)
+
+        os.makedirs("data/processed", exist_ok=True)
+        df.to_csv("data/processed/diarios.csv", index=False, encoding="utf-8")
+
+        print("FINALIZADO:", len(df))
+
+# ============================================================
+# RUN
+# ============================================================
+
+if __name__ == "__main__":
+    asyncio.run(main())

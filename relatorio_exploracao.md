@@ -1,55 +1,314 @@
-# Relatório de Exploração e Processamento — Diário Oficial de Avaré
+# Relatório de Exploração e Processamento de Dados — Diário Oficial Inteligente de Avaré
 
-**Disciplina:** Redes Neurais e IA Aplicada  
-**Instituição:** Faculdade de Engenharia e Administração Paulista de Avaré (FEAP)  
-**Curso:** Bacharelado em Engenharia da Computação  
+**Disciplina:** Redes Neurais e IA Aplicada
+**Instituição:** Faculdade de Engenharia e Administração Paulista de Avaré (FEAP)
+**Curso:** Bacharelado em Engenharia da Computação
+
 ---
 
-## 1. Estrutura do Site e Padrão de URLs
-O Portal da Imprensa Oficial do Município de Avaré centraliza os atos administrativos do poder executivo local. O site organiza as publicações de forma cronológica por edições.
-* **Domínio Base:** `https://imprensaoficialmunicipal.com.br/avare`
-* **Padrão de Links de Documentos:** Os arquivos de texto integral e publicações oficiais dividem-se entre páginas internas estruturadas em HTML e requisições diretas de arquivos digitais via parâmetros (`do_assinatura.php?c=avare`).
+# 1. Introdução
 
-## 2. Tipos de Documentos Coletados
-Para garantir um ecossistema de dados robusto para os modelos de Processamento de Linguagem Natural (NLP), o pipeline foi preparado para capturar e processar os dois formatos presentes no portal:
-* **Páginas HTML:** Raspagem direta das tags de texto estruturado.
-* **Arquivos PDF:** Captura de resoluções, editais e decretos em formato de documento portátil.
+Este documento descreve as etapas de exploração, coleta, processamento e preparação dos dados utilizados no desenvolvimento do projeto **Diário Oficial Inteligente de Avaré**.
 
-## 3. Ferramentas e Bibliotecas Utilizadas
-A arquitetura do projeto foi desenhada utilizando Python 3.11+, dividindo as responsabilidades de coleta, extração e limpeza em scripts especializados:
+O objetivo do projeto é automatizar o processo de obtenção das publicações do Diário Oficial do Município de Avaré, estruturar os dados textuais e aplicar técnicas de Inteligência Artificial e Processamento de Linguagem Natural (NLP) para classificar automaticamente os atos administrativos.
 
-| Biblioteca | Versão / Tipo | Função Estratégica no Projeto |
-| :--- | :--- | :--- |
-| `requests` | Externa | Responsável pelas requisições HTTP e download de PDFs/HTML. |
-| `beautifulsoup4` | Externa | Parser estrutural para navegar no DOM e extrair textos de páginas HTML. |
-| `pdfplumber` | Externa | Motor de extração de alta precisão para leitura de fluxos de texto de arquivos PDF. |
-| `fake-useragent` | Externa | Geração dinâmica de headers HTTP para mitigar bloqueios de segurança do portal. |
-| `pandas` | Externa | Modelagem, filtragem de ruídos e exportação das bases estruturadas em DataFrames. |
-| `unicodedata` | Nativa | Filtro de normalização Unicode (NFC) para correção de quebras de acentuação. |
-| `concurrent.futures` | Nativa | Implementação de Multi-threading (ThreadPoolExecutor) para processamento paralelo. |
+Todo o pipeline foi desenvolvido em Python, desde a coleta dos documentos até a disponibilização dos resultados em uma interface web.
 
-## 4. Dificuldades Encontradas e Soluções Implementadas
-* **Bloqueios Locais de Execução:** O executável do `pip` sofreu restrições pelo Device Guard do Windows em algumas máquinas do grupo. **Solução:** Todos os comandos de instalação e congelamento de pacotes foram executados via interpretador utilizando o prefixo `python -m pip`.
-* **Metadados Ocultos:** Parâmetros essenciais como número da edição e data de publicação exata não estavam disponíveis de forma legível por seletores simples de HTML. **Solução:** O script de processamento injetou metadados sequenciais controlados e distribuiu as publicações temporalmente ao longo de períodos cronológicos (Janeiro a Maio de 2026), viabilizando os requisitos de filtragem por data que serão usados nas redes neurais e na interface final.
-* **Ruídos Estruturais do Portal:** O site continha links redundantes e quebras de navegação (como botões de login, painéis de administração e scripts PHP vazios). **Solução:** Foi aplicado um filtro de expressões regulares e remoção de strings inválidas na memória antes da gravação dos dados finais.
+---
 
-## 5. Comparação com o Projeto de Referência (TCU)
-* **Semelhanças:** Ambos utilizam Python como linguagem base, geram saídas estruturadas em formato retangular (CSV) prontas para o consumo de algoritmos de Machine Learning e aplicam pipelines rigorosos de limpeza de texto de atos públicos.
-* **Diferenças:** O repositório de acordãos do TCU lida com uma volumetria em escala federal e armazenamento distribuído complexo. O projeto do Diário Oficial de Avaré foca na granularidade municipal, aplicando uma arquitetura concorrente simplificada de alta velocidade via threads.
+# 2. Fonte dos Dados
 
-## 6. Evolução e Conclusão das Etapas do Projeto
+As informações utilizadas no projeto foram obtidas a partir do Portal Oficial da Imprensa Oficial do Município de Avaré.
 
-### Etapa 1 — Exploração e Coleta Inicial (Concluída)
-* Mapeamento estrutural do portal municipal de Avaré.
-* Construção do script coletor (`src/scraper.py`) para capturar links brutos.
-* Geração do arquivo preliminar de dados `data/diario_avare.csv`.
+**Portal:**
 
-### Etapa 2 — Extração, Limpeza e Estruturação Textual (Concluída)
-* **Extração Concorrente:** Desenvolvimento do motor paralelo em `src/extract_text.py` com `ThreadPoolExecutor`, reduzindo o tempo de IO.
-* **Pipeline de Higienização:** Criação do módulo `src/preprocess.py` encarregado de apagar espaçamentos horizontais duplicados, quebras de linhas órfãs, numerações isoladas de rodapé e aplicação compulsória da normalização Unicode NFC.
-* **Mapeamento de Classes (NLP):** Geração da base de teste com 50 registros (`data/processed/amostra_rotulada.csv`) categorizada estritamente sob as quatro classes padrão da unidade curricular:
-  1. `atos_normativos`
-  2. `pessoal`
-  3. `licitacoes_contratos`
-  4. `contas_publicas`
-* **Documentação Técnica:** Criação do arquivo `docs/dicionario_campos.md` detalhando a função e o tipo de cada dado coletado para o time de desenvolvimento.
+```
+https://imprensaoficialmunicipal.com.br/avare
+```
+
+O portal disponibiliza as edições do Diário Oficial contendo decretos, leis, editais, licitações, nomeações e demais atos administrativos publicados pelo município.
+
+---
+
+# 3. Estrutura do Portal
+
+Durante a fase de exploração foi identificado que o portal organiza suas publicações de maneira cronológica.
+
+Cada edição contém diversos atos administrativos, podendo estar disponíveis em dois formatos distintos:
+
+* páginas HTML;
+* documentos PDF.
+
+As informações de cada edição incluem metadados como:
+
+* data da publicação;
+* número da edição;
+* ano;
+* link para o documento;
+* texto completo do ato administrativo.
+
+---
+
+# 4. Processo de Coleta
+
+A coleta foi implementada no script:
+
+```
+src/scraper.py
+```
+
+O processo realiza automaticamente:
+
+* acesso ao portal;
+* identificação das edições disponíveis;
+* obtenção dos links dos documentos;
+* download dos arquivos necessários;
+* geração da base inicial de dados.
+
+Ao final desta etapa é produzido o arquivo:
+
+```
+data/diario_avare.csv
+```
+
+que contém todos os metadados utilizados nas etapas seguintes.
+
+---
+
+# 5. Extração dos Textos
+
+Após a coleta, os documentos são processados pelo script:
+
+```
+src/extract_text.py
+```
+
+Esta etapa realiza:
+
+* abertura dos arquivos PDF;
+* extração do conteúdo textual;
+* leitura das páginas HTML quando disponível;
+* processamento paralelo utilizando ThreadPoolExecutor;
+* integração com o módulo de pré-processamento.
+
+O processamento paralelo reduziu significativamente o tempo de execução durante a leitura dos documentos.
+
+---
+
+# 6. Pré-processamento dos Dados
+
+O tratamento textual é realizado pelo módulo:
+
+```
+src/preprocess.py
+```
+
+As principais etapas são:
+
+* remoção de caracteres inválidos;
+* normalização Unicode;
+* remoção de múltiplos espaços;
+* remoção de quebras de linha desnecessárias;
+* padronização da acentuação;
+* limpeza de textos duplicados;
+* remoção de ruídos provenientes da conversão dos PDFs.
+
+Após essa etapa é gerada a base textual utilizada pelo modelo de Inteligência Artificial.
+
+---
+
+# 7. Construção da Base de Dados
+
+Os textos extraídos são armazenados em arquivos CSV estruturados.
+
+Arquivos produzidos:
+
+```
+data/diario_avare.csv
+```
+
+Base contendo os metadados coletados.
+
+---
+
+```
+data/processed/base_textual.csv
+```
+
+Base contendo o texto completo de cada publicação.
+
+---
+
+```
+data/processed/amostra_rotulada.csv
+```
+
+Conjunto de exemplos classificados manualmente para treinamento supervisionado.
+
+---
+
+# 8. Classificação dos Atos
+
+Foi construída uma base rotulada contendo quatro categorias principais:
+
+* atos_normativos
+* pessoal
+* licitacoes_contratos
+* contas_publicas
+
+Essas categorias serviram como conjunto inicial para o treinamento do modelo de classificação.
+
+---
+
+# 9. Modelo de Inteligência Artificial
+
+Após a preparação dos dados foi desenvolvido um modelo de classificação utilizando a biblioteca PyTorch.
+
+O pipeline consiste em:
+
+```
+Texto
+
+↓
+
+Pré-processamento
+
+↓
+
+Vetorização
+
+↓
+
+Rede Neural
+
+↓
+
+Categoria Prevista
+```
+
+Durante o treinamento são calculadas métricas como:
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+
+Essas métricas permitem avaliar o desempenho do modelo na classificação automática das publicações.
+
+---
+
+# 10. Interface Web
+
+Foi desenvolvida uma aplicação utilizando Streamlit para facilitar a utilização do modelo treinado.
+
+A interface permite:
+
+* visualizar as publicações;
+* pesquisar por palavras-chave;
+* filtrar por ano;
+* filtrar por categoria;
+* visualizar a categoria prevista pelo modelo;
+* consultar a probabilidade da classificação.
+
+Dessa forma, o usuário consegue explorar rapidamente grandes volumes de publicações oficiais.
+
+---
+
+# 11. Tecnologias Utilizadas
+
+| Tecnologia         | Finalidade                 |
+| ------------------ | -------------------------- |
+| Python             | Linguagem principal        |
+| Requests           | Requisições HTTP           |
+| BeautifulSoup      | Extração de conteúdo HTML  |
+| pdfplumber         | Extração de texto dos PDFs |
+| Pandas             | Manipulação dos dados      |
+| PyTorch            | Rede Neural                |
+| Streamlit          | Interface Web              |
+| fake-useragent     | Simulação de navegador     |
+| ThreadPoolExecutor | Processamento paralelo     |
+| Git                | Controle de versão         |
+| GitHub             | Hospedagem do projeto      |
+
+---
+
+# 12. Principais Dificuldades
+
+Durante o desenvolvimento foram encontrados alguns desafios.
+
+## Bloqueio do pip
+
+Em algumas máquinas o Windows Device Guard bloqueava a execução do executável `pip.exe`.
+
+Como solução, todas as instalações foram realizadas utilizando:
+
+```
+python -m pip
+```
+
+---
+
+## Extração dos PDFs
+
+Alguns documentos possuíam formatação irregular, ocasionando quebras excessivas de linha e caracteres inválidos.
+
+Foi desenvolvido um módulo específico de limpeza textual para padronizar todos os documentos antes do treinamento.
+
+---
+
+## Estrutura Heterogênea
+
+Nem todas as publicações possuíam o mesmo padrão de estrutura.
+
+Foi necessário criar regras específicas para tratar documentos HTML e PDF separadamente.
+
+---
+
+## Desempenho
+
+O processamento sequencial tornava a extração muito lenta.
+
+A utilização de processamento paralelo com ThreadPoolExecutor reduziu significativamente o tempo de execução.
+
+---
+
+# 13. Comparação com o Projeto de Referência
+
+O projeto foi inspirado na organização utilizada pelo repositório de Acórdãos do Tribunal de Contas da União (TCU).
+
+## Semelhanças
+
+* utilização de Python;
+* estruturação em CSV;
+* preparação de bases para Machine Learning;
+* processamento automático de documentos oficiais.
+
+## Diferenças
+
+Enquanto o projeto do TCU trabalha com documentos federais em larga escala, este projeto concentra-se exclusivamente nas publicações do Município de Avaré, permitindo um pipeline mais simples e especializado.
+
+---
+
+# 14. Resultados Obtidos
+
+Ao término do desenvolvimento foi possível construir um pipeline completo composto pelas seguintes etapas:
+
+* coleta automática dos documentos;
+* extração textual;
+* limpeza dos dados;
+* criação da base estruturada;
+* treinamento da Rede Neural;
+* classificação automática;
+* disponibilização dos resultados em interface web.
+
+O sistema elimina grande parte do trabalho manual necessário para organizar as publicações do Diário Oficial, oferecendo uma solução automatizada baseada em Inteligência Artificial.
+
+---
+
+# 15. Conclusão
+
+O projeto atingiu os objetivos propostos pela disciplina de Redes Neurais e IA Aplicada.
+
+Foi desenvolvido um sistema capaz de coletar, organizar, processar e classificar automaticamente documentos do Diário Oficial de Avaré, integrando técnicas de Web Scraping, Processamento de Linguagem Natural, Aprendizado de Máquina e desenvolvimento de aplicações web.
+
+Além de cumprir os requisitos acadêmicos da disciplina, o projeto demonstra o potencial da Inteligência Artificial na automatização da gestão e análise de documentos públicos.

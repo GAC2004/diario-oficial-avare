@@ -1,113 +1,193 @@
-import requests
-from bs4 import BeautifulSoup
-import pandas as pd
+# scraper.py
 import os
-import re
+import json
+import base64
+import requests
+import pandas as pd
 
-URL = "https://imprensaoficialmunicipal.com.br/avare"
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+from bs4 import BeautifulSoup
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from tqdm import tqdm
+
+# ============================================================
+# CONFIG
+# ============================================================
+
+API_URL = "https://dosp.com.br/api/index.php/dioe.js/4700?callback=dioe"
+MUNICIPIO_URL = "Avar%C3%A9"
+
+PASTA_RAW = "data/raw"
+ARQUIVO_SAIDA = os.path.join(PASTA_RAW, "diarios.csv")
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0"
 }
 
-print("📥 Acessando site oficial de Avaré...")
-response = requests.get(URL, headers=headers)
+# ============================================================
+# SESSION
+# ============================================================
 
-if response.status_code != 200:
-    print("❌ Erro ao acessar o portal municipal.")
-    exit()
+def criar_sessao():
+    retry = Retry(
+        total=2,
+        backoff_factor=0.3,
+        status_forcelist=[429, 500, 502, 503, 504]
+    )
 
-soup = BeautifulSoup(response.text, "html.parser")
-publicacoes = []
-links = soup.find_all("a", href=True)
+    session = requests.Session()
+    session.headers.update(HEADERS)
+    session.mount("https://", HTTPAdapter(max_retries=retry))
 
-# Lista refinada de lixo eletrônico e links de navegação para ignorar
-termos_ignorados = [
-    'login', 'dashboard', 'painel', 'envie remessas', 'voltar', 'home', 
-    'index.php', 'pesquisar.php', 'listaatos.php', '#', 'javascript'
-]
+    return session
 
-print(f"🔍 Analisando {len(links)} links brutos encontrados na página...")
+session = criar_sessao()
 
-contador_validos = 1
+# ============================================================
+# JSONP seguro
+# ============================================================
 
-for link in links:
-    texto = link.get_text(separator=' ', strip=True)
-    href = link["href"].strip()
+def extrair_json(texto):
+    start = texto.find("{")
+    end = texto.rfind("}") + 1
+    return json.loads(texto[start:end])
 
-    # Se o texto for muito curto ou o link estiver vazio, pula
-    if len(texto) < 3 or not href:
-        continue
+# ============================================================
+# BASE64
+# ============================================================
 
-    texto_lower = texto.lower()
-    href_lower = href.lower()
+def b64(v):
+    return base64.b64encode(str(v).encode()).decode()
 
-    # Ignora links institucionais e páginas do sistema do portal
-    if any(termo in texto_lower or termo in href_lower for termo in termos_ignorados):
-        continue
+# ============================================================
+# URL jornal
+# ============================================================
 
-    # Pula os contadores institucionais da barra lateral (árvores, água, energia, etc.)
-    if any(palavra in texto_lower for palavra in ['árvores', 'folhas', 'litros', 'energia', 'kw', 'eucalipto']):
-        continue
+def url_jornal(iddo):
+    return (
+        "https://imprensaoficialmunicipal.com.br/"
+        f"leiturajornal.php?c={MUNICIPIO_URL}&i={b64(iddo)}"
+    )
 
-    # Formata e resolve URLs relativas para torná-las links absolutos válidos
-    if href.startswith("/"):
-        href = "https://imprensaoficialmunicipal.com.br" + href
-    elif not href.startswith("http"):
-        href = f"https://imprensaoficialmunicipal.com.br/avare/{href}"
+# ============================================================
+# API
+# ============================================================
 
-    # Tenta inferir ou extrair o número da edição a partir do texto (ex: "Edição 1234" ou "Ato 3450")
-    num_edicao = "Não identificado"
-    numeros_no_texto = re.findall(r'\d+', texto)
-    if numeros_no_texto:
-        num_edicao = numeros_no_texto[0]
+def baixar_api():
+    r = session.get(API_URL, timeout=20)
 
-    # Atribui títulos realistas com base nos padrões para treinar a IA na Etapa 2
-    titulo_limpo = texto
-    if "abrir edição" in texto_lower or "visualizar" in texto_lower:
-        # Se for um botão genérico, gera um título plausível para simular decretos/portarias rotativos
-        if contador_validos % 3 == 0:
-            titulo_limpo = f"DECRETO N° {2000 + contador_validos}/2026 - Dispõe sobre abertura de crédito adicional"
-        elif contador_validos % 3 == 1:
-            titulo_limpo = f"PORTARIA N° {100 + contador_validos}/2026 - Nomeação de servidor municipal"
+    if r.status_code != 200:
+        raise Exception(f"Erro API: {r.status_code}")
+
+    return extrair_json(r.text)
+
+# ============================================================
+# LINK TEXTO
+# ============================================================
+
+def pegar_link(html):
+    soup = BeautifulSoup(html, "html.parser")
+
+    for a in soup.find_all("a"):
+        href = a.get("href", "")
+        if "leituratexto" in href:
+            if href.startswith("http"):
+                return href
+            return requests.compat.urljoin("https://dosp.com.br", href)
+
+    return None
+
+# ============================================================
+# LIMPEZA HTML
+# ============================================================
+
+def limpar(html):
+    soup = BeautifulSoup(html, "html.parser")
+
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+
+    return soup.get_text(" ", strip=True)
+
+# ============================================================
+# PROCESSO ITEM
+# ============================================================
+
+def processar_item(url):
+    try:
+        html = session.get(url, timeout=10).text
+
+        link = pegar_link(html)
+
+        if link:
+            html2 = session.get(link, timeout=10).text
+            texto = limpar(html2)
         else:
-            titulo_limpo = f"EDITAL DE LICITAÇÃO N° {50 + contador_validos}/2026 - Contratação de serviços médicos"
+            texto = limpar(html)
 
-    publicacoes.append({
-        "data_publicacao": "2026-06-01",
-        "numero_edicao": num_edicao,
-        "titulo_ato": titulo_limpo,
-        "tipo_ato": "Publicação Oficial",
-        "url_documento": href
-    })
-    
-    contador_validos += 1
+        return texto if len(texto) > 80 else "SEM_TEXTO"
 
-# Transforma em DataFrame e elimina URLs duplicadas da navegação
-df = pd.DataFrame(publicacoes)
-if not df.empty:
-    df = df.drop_duplicates(subset=["url_documento"])
+    except Exception as e:
+        print("Erro:", e)
+        return "SEM_TEXTO"
 
-# Garante rigorosamente os registros necessários da Amostra da Etapa 2
-if len(df) < 10000:
-    print(f"⚠️ Encontrados {len(df)} links únicos. Expandindo base para cumprir as regras acadêmicas...")
-    while len(df) < 100:
-        df = pd.concat([df, df], ignore_index=True)
+# ============================================================
+# PIPELINE PARALELO (CORRIGIDO)
+# ============================================================
 
-# Corta exatamente em 100 linhas para o seu lote
-df = df.head(400)
+def processar(df):
+    urls = df["url_jornal"].tolist()
+    textos = [None] * len(urls)
 
-# Atualiza as datas e títulos na base duplicada de forma incremental para não salvar linhas idênticas
-for idx in range(len(df)):
-    if idx > 0:
-        # Distribui os títulos entre Decretos, Portarias e Licitações para satisfazer o critério das 3 classes
-        if idx % 3 == 0:
-            df.at[idx, 'titulo_ato'] = f"DECRETO EXECUTIVO N° {3000 + idx}/2026 - Regulamenta serviços municipais"
-        elif idx % 3 == 1:
-            df.at[idx, 'titulo_ato'] = f"PORTARIA DE PESSOAL N° {500 + idx}/2026 - Concede gratificação funcional"
-        else:
-            df.at[idx, 'titulo_ato'] = f"AVISO DE LICITAÇÃO E CONTRATO N° {10 + idx}/2026 - Aquisição de merenda"
+    print("Extraindo textos...")
 
-os.makedirs("data", exist_ok=True)
-df.to_csv("data/diario_avare.csv", index=False, encoding="utf-8-sig")
-print(f"✅ Arquivo 'data/diario_avare.csv' gerado com sucesso!")
-print(f"📊 Total de registros prontos para a extração de texto: {len(df)}")
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = {
+            executor.submit(processar_item, url): i
+            for i, url in enumerate(urls)
+        }
+
+        for f in tqdm(as_completed(futures), total=len(futures)):
+            i = futures[f]
+            textos[i] = f.result()
+
+    df["texto"] = textos
+    return df
+
+# ============================================================
+# MAIN
+# ============================================================
+
+def main():
+    print("Baixando API...")
+
+    dados = baixar_api()
+
+    registros = []
+
+    for item in dados["data"]:
+        iddo = item.get("iddo")
+        if not iddo:
+            continue
+
+        registros.append({
+            "iddo": iddo,
+            "edicao": item.get("edicao_do"),
+            "data": item.get("data"),
+            "url_jornal": url_jornal(iddo)
+        })
+
+    df = pd.DataFrame(registros)
+
+    df = processar(df)
+
+    os.makedirs(PASTA_RAW, exist_ok=True)
+
+    df.to_csv(ARQUIVO_SAIDA, index=False, encoding="utf-8")
+
+    print("FINALIZADO:", len(df))
+
+
+if __name__ == "__main__":
+    main()
