@@ -66,7 +66,7 @@ O sistema realiza todo o pipeline de processamento, desde a obtenção das publi
 
 ## Linguagem
 
-- Python 3
+- Python 3.14
 
 ## Bibliotecas
 
