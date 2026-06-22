@@ -1,4 +1,4 @@
-#app.py
+#app.py -> streamlit run src/app.py
 import streamlit as st
 import torch
 import json
